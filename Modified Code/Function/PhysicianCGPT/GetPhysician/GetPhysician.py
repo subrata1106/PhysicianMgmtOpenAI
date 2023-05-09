@@ -10,7 +10,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     # Retrieve the connection string for use with the Blob Service Client
-    connect_str = "DefaultEndpointsProtocol=https;AccountName=physicianlist;AccountKey=4IQm0c5oQaXSYqOVd8x4O9bc46PJHk0xtk8O9z6GugyIb0fbuTEf11Ez8Y9CYsMGbjlRA/ohCdDF+AStbSl/gw==;EndpointSuffix=core.windows.net"
+    connect_str = "DefaultEndpointsProtocol=https;AccountName=physicianlist;AccountKey=<Account Key>;EndpointSuffix=core.windows.net"
 
     # Create the Blob Service Client
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)

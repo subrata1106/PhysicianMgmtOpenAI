@@ -17,7 +17,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     attending_status = req_body.get('attending_status')
     # Create the Blob Service Client
     blob_service_client = BlobServiceClient.from_connection_string(
-        conn_str="DefaultEndpointsProtocol=https;AccountName=physicianlist;AccountKey=4IQm0c5oQaXSYqOVd8x4O9bc46PJHk0xtk8O9z6GugyIb0fbuTEf11Ez8Y9CYsMGbjlRA/ohCdDF+AStbSl/gw==;EndpointSuffix=core.windows.net") #updated
+        conn_str="DefaultEndpointsProtocol=https;AccountName=physicianlist;AccountKey=<Account Key>;EndpointSuffix=core.windows.net") #updated
     # Get the container client
     container_client = blob_service_client.get_container_client("physicians")
     # Get the blob client

@@ -1,0 +1,89 @@
+{
+	"physicians": [
+		{
+			"id": 1,
+			"name": "Dr. John Smith",
+			"specialty": "Family Medicine",
+			"clinics": [
+				{
+					"name": "Family Health Clinic",
+					"address": "123 Main Street, Anytown, USA",
+					"attending": false
+				},
+				{
+					"name": "Urgent Care Clinic",
+					"address": "456 Elm Street, Anytown, USA",
+					"attending": false
+				}
+			]
+		},
+		{
+			"id": 2,
+			"name": "Dr. Jane Doe",
+			"specialty": "Pediatrics",
+			"clinics": [
+				{
+					"name": "Children's Hospital",
+					"address": "789 Oak Street, Anytown, USA",
+					"attending": false
+				},
+				{
+					"name": "Pediatric Clinic",
+					"address": "1011 Pine Street, Anytown, USA",
+					"attending": false
+				}
+			]
+		},
+		{
+			"id": 3,
+			"name": "Dr. Robert Jones",
+			"specialty": "Internal Medicine",
+			"clinics": [
+				{
+					"name": "Internal Medicine Clinic",
+					"address": "1213 Maple Street, Anytown, USA",
+					"attending": true
+				},
+				{
+					"name": "General Practice Clinic",
+					"address": "1415 Cedar Street, Anytown, USA",
+					"attending": false
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "Dr. Sarah Johnson",
+			"specialty": "Surgery",
+			"clinics": [
+				{
+					"name": "Surgery Clinic",
+					"address": "1617 Birch Street, Anytown, USA",
+					"attending": true
+				},
+				{
+					"name": "Surgical Center",
+					"address": "1819 Willow Street, Anytown, USA",
+					"attending": false
+				}
+			]
+		},
+		{
+			"id": 5,
+			"name": "Dr. David Williams",
+			"specialty": "Orthopedics",
+			"clinics": [
+				{
+					"name": "Orthopedic Clinic",
+					"address": "2021 Ash Street, Anytown, USA",
+					"attending": false
+				},
+				{
+					"name": "Sports Medicine Clinic",
+					"address": "2223 Elm Street, Anytown, USA",
+					"attending": false
+				}
+			]
+		}
+	]
+}
