@@ -1,0 +1,44 @@
+
+
+name: Azure Devops Pipeline
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.9.6'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      pip install -r requirements.txt
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: '<Azure Subscription Name>'
+    appType: 'functionApp'
+    appName: 'testcgptfunc'
+    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'

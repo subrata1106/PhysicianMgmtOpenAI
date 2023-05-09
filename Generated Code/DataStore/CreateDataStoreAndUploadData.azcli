@@ -1,0 +1,11 @@
+# Create a resource group
+az group create --name rgOpenAIPhysicianSample --location centralindia
+
+# Create an Azure storage account
+az storage account create --name physicianlist --location centralindia --resource-group rgOpenAIPhysicianSample --sku Standard_LRS
+
+# Create a Blob container
+az storage container create --name physicians --account-name physicianlist
+
+# Upload Physicians.json file in the blob container
+az storage blob upload --container-name physicians --file Physicians.json --name Physicians.json --account-name physicianlist

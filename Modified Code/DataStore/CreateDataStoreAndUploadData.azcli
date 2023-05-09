@@ -1,0 +1,18 @@
+
+#!/bin/bash
+
+#Create rgOpenAIPhysicianSample resource group in centralindia location
+az group create --name rgOpenAIPhysicianSample --location centralindia
+
+#Create an Azure storage account name physicianlist
+az storage account create --name physicianlist --resource-group rgOpenAIPhysicianSample --location centralindia --sku Standard_LRS
+
+###############################################
+#Get the account key manually and update the scripts below......
+###############################################
+
+#Create a Blob container named physicians
+az storage container create --name physicians --account-name physicianlist --public-access blob --account-key 4IQm0c5oQaXSYqOVd8x4O9bc46PJHk0xtk8O9z6GugyIb0fbuTEf11Ez8Y9CYsMGbjlRA/ohCdDF+AStbSl/gw==
+
+#Upload Physicians.json file in the blob container
+az storage blob upload --container-name physicians --file Physicians.json --name Physicians.json --account-name physicianlist --account-key 4IQm0c5oQaXSYqOVd8x4O9bc46PJHk0xtk8O9z6GugyIb0fbuTEf11Ez8Y9CYsMGbjlRA/ohCdDF+AStbSl/gw==

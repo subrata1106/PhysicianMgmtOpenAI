@@ -1,0 +1,45 @@
+
+
+name: AzureDevopsPipeline
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.9.16'
+    disableDownloadFromRegistry: true #added
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      pip install --target="$(System.DefaultWorkingDirectory)/.python_packages/lib/site-packages" -r requirements.txt 
+    #added target
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    #publishLocation: 'Container'
+
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: 'DevOpsPipeline' #mod to add Service Principal
+    appType: 'functionAppLinux' #Mod to add linux
+    appName: 'testcgptfunc'
+    package: '$(Build.ArtifactStagingDirectory)/**/$(Build.BuildId).zip' #Mod to add /**/

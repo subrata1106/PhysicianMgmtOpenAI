@@ -1,0 +1,25 @@
+# Create an Azure storage account name physicianweb in rgOpenAIPhysicianSample resource group
+az storage account create --name physicianweb --resource-group rgOpenAIPhysicianSample --sku Standard_LRS
+
+###############################################
+#Get the account key manually and update the scripts below......
+###############################################
+
+
+
+# Configure physicianweb for Azure Static Website hosting
+az storage blob service-properties update --account-name physicianweb --static-website --index-document ShowPhysicians.html --account-key lJzpqW7PhBHAklKqJD7OIOl415myFD0pCZa66yvqCF8J10RqBKbfJSkcT5vl7fQ7l+hZFVrrk3Sy+AStXg1Y3g==
+
+# Upload ShowPhysicians.html and UpdatePhysician.html file in the $web container
+
+
+az storage blob upload --account-name physicianweb --container-name '$web' --name ShowPhysicians.html --file ShowPhysicians.html  --account-key lJzpqW7PhBHAklKqJD7OIOl415myFD0pCZa66yvqCF8J10RqBKbfJSkcT5vl7fQ7l+hZFVrrk3Sy+AStXg1Y3g==
+
+
+
+
+az storage blob upload --account-name physicianweb --container-name '$web' --name UpdatePhysician.html --file UpdatePhysician.html  --account-key lJzpqW7PhBHAklKqJD7OIOl415myFD0pCZa66yvqCF8J10RqBKbfJSkcT5vl7fQ7l+hZFVrrk3Sy+AStXg1Y3g==
+
+
+
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Physician Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var physicianId = getParameterByName('physicianId');
+            $.ajax({
+                url: 'https://physicianservices.azurewebsites.net/api/GetPhysician?physicianId=' + physicianId,
+                type: 'GET',
+                success: function (data) {
+                    if (data) {
+                        $('#physicianName').text(data.Name + ' - ' + data.Speciality);
+                        $('#clinicsTable').empty();
+                        $.each(data.Clinics, function (index, value) {
+                            var isAttending = value.IsAttending ? 'Yes' : 'No';
+                            var attendingTd = '<td>' + isAttending + '</td>';
+                            var attendingTdWithButton = '<td><input type="checkbox" class="form-check-input" name="attending" value="' + value.ClinicId + '" ' + (value.IsAttending ? 'checked' : '') + '></td>';
+                            $('#clinicsTable').append('<tr><td>' + value.ClinicName + '</td>' + attendingTdWithButton + '</tr>');
+                        });
+                    }
+                }
+            });
+
+            $('#submitButton').click(function () {
+                var attendingClinics = [];
+                $('input[name="attending"]:checked').each(function () {
+                    attendingClinics.push($(this).val());
+                });
+                $.ajax({
+                    url: 'https://physicianservices.azurewebsites.net/api/UpdatePhysician',
+                    type: 'POST',
+                    data: {
+                        PhysicianId: physicianId,
+                        AttendingClinics: attendingClinics
+                    },
+                    success: function (data) {
+                        alert('Successfully updated physician');
+                    }
+                });
+            });
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 id="physicianName"></h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Clinic Name</th>
+                    <th>Attending</th>
+                </tr>
+            </thead>
+            <tbody id="clinicsTable">
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" id="submitButton">Submit</button>
+    </div>
+</body>
+</html>

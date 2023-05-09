@@ -1,0 +1,89 @@
+{
+    "physicians": [
+        {
+            "id": 1,
+            "name": "Dr. John Smith",
+            "specialty": "Family Medicine",
+            "clinics": [
+                {
+                    "name": "Family Health Care Clinic",
+                    "address": "123 Main Street, Anytown, USA",
+                    "attending": true
+                },
+                {
+                    "name": "Rural Health Care Clinic",
+                    "address": "456 Elm Street, Anytown, USA",
+                    "attending": false
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Dr. Jane Doe",
+            "specialty": "Pediatrics",
+            "clinics": [
+                {
+                    "name": "Children's Health Care Clinic",
+                    "address": "789 Park Avenue, Anytown, USA",
+                    "attending": true
+                },
+                {
+                    "name": "Pediatric Specialists Clinic",
+                    "address": "987 Oak Street, Anytown, USA",
+                    "attending": false
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Dr. Richard Roe",
+            "specialty": "Internal Medicine",
+            "clinics": [
+                {
+                    "name": "Internal Medicine Clinic",
+                    "address": "654 Maple Street, Anytown, USA",
+                    "attending": true
+                },
+                {
+                    "name": "General Health Care Clinic",
+                    "address": "321 Hill Street, Anytown, USA",
+                    "attending": false
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Dr. Sarah Jones",
+            "specialty": "Surgery",
+            "clinics": [
+                {
+                    "name": "Surgical Specialists Clinic",
+                    "address": "987 Oak Street, Anytown, USA",
+                    "attending": true
+                },
+                {
+                    "name": "General Surgery Clinic",
+                    "address": "654 Maple Street, Anytown, USA",
+                    "attending": false
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Dr. William White",
+            "specialty": "Obstetrics & Gynecology",
+            "clinics": [
+                {
+                    "name": "Women's Health Care Clinic",
+                    "address": "123 Main Street, Anytown, USA",
+                    "attending": true
+                },
+                {
+                    "name": "Maternity Care Clinic",
+                    "address": "456 Elm Street, Anytown, USA",
+                    "attending": false
+                }
+            ]
+        }
+    ]
+}

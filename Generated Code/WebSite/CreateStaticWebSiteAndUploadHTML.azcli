@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Create an Azure storage account name physicianweb in rgOpenAIPhysicianSample resource group
+az storage account create --name physicianweb --resource-group rgOpenAIPhysicianSample --sku Standard_LRS
+
+# Configure physicianweb for Azure Static Website hosting with ShowPhysicians.html as index document
+az storage blob service-properties update --account-name physicianweb --static-website --index-document ShowPhysicians.html
+
+# Upload ShowPhysicians.html and UpdatePhysician.html file in the $web container
+az storage blob upload --account-name physicianweb --container-name $web --name ShowPhysicians.html --file ShowPhysicians.html
+az storage blob upload --account-name physicianweb --container-name $web --name UpdatePhysician.html --file UpdatePhysician.html
