@@ -1,75 +1,83 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Physician Form</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <title>Physician Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+            // Get the query string value
             var physicianId = getParameterByName('physicianId');
+            // Call the API to get the list of physicians
             $.ajax({
-                url: 'https://physicianservices.azurewebsites.net/api/GetPhysician?physicianId=' + physicianId,
+                url: 'https://physicianservices.azurewebsites.net/api/GetPhysician',
                 type: 'GET',
-                success: function (data) {
-                    if (data) {
-                        $('#physicianName').text(data.Name + ' - ' + data.Speciality);
-                        $('#clinicsTable').empty();
-                        $.each(data.Clinics, function (index, value) {
-                            var isAttending = value.IsAttending ? 'Yes' : 'No';
-                            var attendingTd = '<td>' + isAttending + '</td>';
-                            var attendingTdWithButton = '<td><input type="checkbox" class="form-check-input" name="attending" value="' + value.ClinicId + '" ' + (value.IsAttending ? 'checked' : '') + '></td>';
-                            $('#clinicsTable').append('<tr><td>' + value.ClinicName + '</td>' + attendingTdWithButton + '</tr>');
-                        });
+                success: function(data) {
+                    // Filter the response for the specific physician
+                    var physician = data.filter(function(physician) {
+                        return physician.physicianId == physicianId;
+                    });
+                    // Populate the form
+                    if (physician.length > 0) {
+                        $('#physicianName').text(physician[0].name + ' - ' + physician[0].specialty);
+                        // Create the table
+                        var table = '<table class="table table-bordered">';
+                        table += '<thead><tr><th>Clinic Name</th><th>Address</th><th>Attending</th></tr></thead>';
+                        table += '<tbody>';
+                        // Populate the table
+                        for (var i = 0; i < physician[0].clinics.length; i++) {
+                            table += '<tr>';
+                            table += '<td>' + physician[0].clinics[i].clinicName + '</td>';
+                            table += '<td>' + physician[0].clinics[i].address + '</td>';
+                            table += '<td><input type="checkbox" ' + (physician[0].clinics[i].attending ? 'checked' : '') + ' onchange="updateAttending(' + physician[0].clinics[i].clinicId + ', this)" /></td>';
+                            table += '</tr>';
+                        }
+                        table += '</tbody>';
+                        table += '</table>';
+                        $('#clinicsTable').html(table);
                     }
                 }
             });
-
-            $('#submitButton').click(function () {
-                var attendingClinics = [];
-                $('input[name="attending"]:checked').each(function () {
-                    attendingClinics.push($(this).val());
-                });
-                $.ajax({
-                    url: 'https://physicianservices.azurewebsites.net/api/UpdatePhysician',
-                    type: 'POST',
-                    data: {
-                        PhysicianId: physicianId,
-                        AttendingClinics: attendingClinics
-                    },
-                    success: function (data) {
-                        alert('Successfully updated physician');
-                    }
-                });
-            });
         });
 
+        // Function to get the query string value
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, '\\$&');
+            name = name.replace(/[\\[\\]]/g, '\\\\$&');
             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
                 results = regex.exec(url);
             if (!results) return null;
             if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            return decodeURIComponent(results[2].replace(/\\+/g, ' '));
+        }
+
+        // Function to update the attending status
+        function updateAttending(clinicId, checkbox) {
+            // Call the API to update the physician JSON
+            $.ajax({
+                url: 'https://physicianservices.azurewebsites.net/api/UpdatePhysician',
+                type: 'POST',
+                data: {
+                    clinicId: clinicId,
+                    attending: checkbox.checked
+                },
+                success: function(data) {
+                    console.log('Attending status updated successfully!');
+                }
+            });
         }
     </script>
 </head>
+
 <body>
     <div class="container">
         <h1 id="physicianName"></h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Clinic Name</th>
-                    <th>Attending</th>
-                </tr>
-            </thead>
-            <tbody id="clinicsTable">
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-primary" id="submitButton">Submit</button>
+        <div id="clinicsTable"></div>
     </div>
 </body>
+
 </html>
