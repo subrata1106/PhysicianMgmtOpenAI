@@ -31,14 +31,16 @@
                 url: "https://physicianservices.azurewebsites.net/api/GetPhysician",
                 type: "GET",
                 success: function(data){				
+                    console.log(data);
+                    var jsonData = data; //JSON.parse(data);
                     var physicianTable = $("#physicianTable");
-                    for (var i = 0; i < data.physicians.length; i++){
+                    for (var i = 0; i < jsonData.physicians.length; i++){
                         var row = "<tr>";
-                        row += "<td>" + data.physicians[i].name + "</td>";
-                        row += "<td>" + data.physicians[i].specialty + "</td>";
+                        row += "<td>" + jsonData.physicians[i].name + "</td>";
+                        row += "<td>" + jsonData.physicians[i].specialty + "</td>";
                         row += "<td>";
-                        for (var j = 0; j < data.physicians[i].clinics.length; j++){
-                            row += data.physicians[i].clinics[j].name + ": " + (data.physicians[i].clinics[j].attending ? "Available" : "Not Available") + "<br>";
+                        for (var j = 0; j < jsonData.physicians[i].clinics.length; j++){
+                            row += jsonData.physicians[i].clinics[j].name + ": " + (jsonData.physicians[i].clinics[j].attending ? "Available" : "Not Available") + "<br>";
                         }
                         row += "</td>";
                         row += "</tr>";
