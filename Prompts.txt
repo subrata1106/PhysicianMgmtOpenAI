@@ -1,0 +1,38 @@
+
+{
+    "prompt": "Create a JSON file to store Information of multiple Physicians. The file should container the following information 1. A Unique identified for the Physician 2. Physician Name 3. Specialty Area 4. List of Clinics the Physician attends. i.Name of the Clinic ii.Address   iii. Whether the Physician is currently attending the clinic Or not. Populate the JSON file with 5 sample physician data"
+}
+
+
+{
+    "prompt": "Create a Azure CLI script to 1. Create rgOpenAIPhysicianSample resource group in centralindia location. 2. Create an Azure storage account name physiciandatastore 2. Create a Blob container named physicians. 3. Upload Physicians.json file in the blob container."
+}
+
+
+{
+    "prompt": "Create a HTTP Azure function in Python 1. To fetch Physicians.json from Blob container named physicians. 2. From Azure storage account name physiciandatastore in rgOpenAIPhysicianSample resource group. 3. Return Physicians.json in the response."
+}
+
+
+
+{
+    "prompt": "Create a HTTP Azure function in Python to update a specific Physician's atteding status in a specific clinic in the JSON file stored in Azure storage blob containing  multiple Physicians information like  1. A Unique identified for the Physician 2. Physician Name 3. Specialty Area 4. List of Clinics the Physician attends.   i.Name of the Clinic   ii.Address   iii. Whether the Physician is currently attending the clinic Or not"
+}
+
+{
+    "prompt": "Create an Azure Devops pipeline yaml with the following tasks  1. Use ubuntu-latest as build image   2. Checkout a python 3.9 application from Azure repository.  3. Use Python version 3.9.6   4. Bash task to Install python application dependecies   5. Create an deployable archive file   6. Publish the archive file in Azure artifact.   7. Deploy it in azure function PhysicianServices."
+}
+
+{
+    "prompt": "Write a HTML, Javascript, Bootstrap Web Page to 1. call https://physicianservices.azurewebsites.net/api/GetPhysician api to get the Physicians json 2. Populate a list of Physician with  1. Physician Name  2. Speciality Area   3. And for each clinics show whether physician is available there or not."
+}
+
+
+{
+    "prompt": "Write a HTML, Javascript, Bootstrap Web Page to 1. Call https://physicianservices.azurewebsites.net/api/GetPhysician api to get list of all Physicians. 2. Filter the response for a specific Physician physicianId taken as input from the query string. 3. Populate a form using the specific Physician information filtered earlier  with    i. Heading as Physician Name mentioning his/her Specialty   ii. Tabular list of all the Clinics which Physicians visits, their addresses and also whether physician is currently attending or not. 4. User should be able to update the attending status in a specific Clinic which should call https://physicianservices.azurewebsites.net/api/UpdatePhysician api  to update the Physician JSON."
+}
+
+
+{
+    "prompt": "Create a Azure CLI script to  1. Create an Azure storage account name physicianweb in rgOpenAIPhysicianSample resource group. 2. Configure physicianweb for Azure Static Website hosting with ShowPhysicians.html as index document. 3. Upload ShowPhysicians.html and UpdatePhysician.html file in the $web container."
+}
